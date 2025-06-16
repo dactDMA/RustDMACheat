@@ -137,8 +137,8 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)$(ProjectName)\Security;$(SolutionDir)$(ProjectName)\Graphics;$(SolutionDir)$(ProjectName)\Graphics\utility;$(SolutionDir)$(ProjectName)\Graphics\entities;$(SolutionDir)$(ProjectName)\Esp;$(SolutionDir)$(ProjectName)\Graphics\start up;$(SolutionDir)$(ProjectName)\Config;$(SolutionDir)$(ProjectName)\SDK;$(SolutionDir)$(ProjectName)\Misc\Pch;$(SolutionDir)$(ProjectName)\Memory;$(SolutionDir)$(ProjectName)\;$(SolutionDir)$(ProjectName)\Misc</AdditionalIncludeDirectories>
-      <PrecompiledHeader>Create</PrecompiledHeader>
+      <AdditionalIncludeDirectories>$(SolutionDir)$(ProjectName)\Security;$(SolutionDir)$(ProjectName)\Esp;$(SolutionDir)$(ProjectName)\Config;$(SolutionDir)$(ProjectName)\SDK;$(SolutionDir)$(ProjectName)\nt;$(SolutionDir)$(ProjectName)\Misc\Pch;$(SolutionDir)$(ProjectName)\Memory;$(SolutionDir)$(ProjectName)\;$(SolutionDir)$(ProjectName)\Misc;$(SolutionDir)$(ProjectName)\GUI-Framework\GUI\Graphics;$(SolutionDir)$(ProjectName)\GUI-Framework\GUI\Graphics\Utility;$(SolutionDir)$(ProjectName)\GUI-Framework\GUI\Graphics\Utility\Assets;$(SolutionDir)$(ProjectName)\GUI-Framework\GUI\Graphics\Start Up;$(SolutionDir)$(ProjectName)\GUI-Framework\GUI\Graphics\Entities</AdditionalIncludeDirectories>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
@@ -155,8 +155,8 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)$(ProjectName)\Security;$(SolutionDir)$(ProjectName)\Graphics;$(SolutionDir)$(ProjectName)\Graphics\utility;$(SolutionDir)$(ProjectName)\Graphics\entities;$(SolutionDir)$(ProjectName)\Esp;$(SolutionDir)$(ProjectName)\Graphics\start up;$(SolutionDir)$(ProjectName)\Config;$(SolutionDir)$(ProjectName)\SDK;$(SolutionDir)$(ProjectName)\Misc\Pch;$(SolutionDir)$(ProjectName)\Memory;$(SolutionDir)$(ProjectName)\;$(SolutionDir)$(ProjectName)\Misc</AdditionalIncludeDirectories>
-      <PrecompiledHeader>Create</PrecompiledHeader>
+      <AdditionalIncludeDirectories>$(SolutionDir)$(ProjectName)\Security;$(SolutionDir)$(ProjectName)\Esp;$(SolutionDir)$(ProjectName)\Config;$(SolutionDir)$(ProjectName)\SDK;$(SolutionDir)$(ProjectName)\nt;$(SolutionDir)$(ProjectName)\Misc\Pch;$(SolutionDir)$(ProjectName)\Memory;$(SolutionDir)$(ProjectName)\;$(SolutionDir)$(ProjectName)\Misc;$(SolutionDir)$(ProjectName)\GUI-Framework\GUI\Graphics;$(SolutionDir)$(ProjectName)\GUI-Framework\GUI\Graphics\Utility;$(SolutionDir)$(ProjectName)\GUI-Framework\GUI\Graphics\Utility\Assets;$(SolutionDir)$(ProjectName)\GUI-Framework\GUI\Graphics\Start Up;$(SolutionDir)$(ProjectName)\GUI-Framework\GUI\Graphics\Entities</AdditionalIncludeDirectories>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
@@ -167,46 +167,178 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Esp\PlayerEsp.cpp" />
-    <ClCompile Include="Esp\Visuals.cpp" />
-    <ClCompile Include="Graphics\Drawing.cpp" />
-    <ClCompile Include="Graphics\Entities\Button.cpp" />
-    <ClCompile Include="Graphics\Entities\ColourPicker.cpp" />
-    <ClCompile Include="Graphics\Entities\ComboBox.cpp" />
-    <ClCompile Include="Graphics\Entities\DropDown.cpp" />
-    <ClCompile Include="Graphics\Entities\Entity.cpp" />
-    <ClCompile Include="Graphics\Entities\Form.cpp" />
-    <ClCompile Include="Graphics\Entities\KeyBind.cpp" />
-    <ClCompile Include="Graphics\Entities\Label.cpp" />
-    <ClCompile Include="Graphics\Entities\Tab.cpp" />
-    <ClCompile Include="Graphics\Entities\TabController.cpp" />
-    <ClCompile Include="Graphics\Entities\TabListBox.cpp" />
-    <ClCompile Include="Graphics\Entities\TabListBoxController.cpp" />
-    <ClCompile Include="Graphics\Entities\TextBox.cpp" />
-    <ClCompile Include="Graphics\Entities\Toggle.cpp" />
-    <ClCompile Include="Graphics\Start Up\GUI.cpp" />
-    <ClCompile Include="Graphics\Start Up\Init.cpp" />
-    <ClCompile Include="Graphics\Utility\Animation.cpp" />
-    <ClCompile Include="Graphics\Utility\Colour.cpp" />
-    <ClCompile Include="Graphics\Utility\Font.cpp" />
-    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Esp\PlayerEsp.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Esp\Visuals.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="GUI-Framework\GUI\Graphics\Drawing.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="GUI-Framework\GUI\Graphics\Entities\Button.cpp" />
+    <ClCompile Include="GUI-Framework\GUI\Graphics\Entities\ColourPicker.cpp" />
+    <ClCompile Include="GUI-Framework\GUI\Graphics\Entities\ComboBox.cpp" />
+    <ClCompile Include="GUI-Framework\GUI\Graphics\Entities\DropDown.cpp" />
+    <ClCompile Include="GUI-Framework\GUI\Graphics\Entities\DropDownTextBox.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="GUI-Framework\GUI\Graphics\Entities\Entity.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="GUI-Framework\GUI\Graphics\Entities\Form.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="GUI-Framework\GUI\Graphics\Entities\KeyBind.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="GUI-Framework\GUI\Graphics\Entities\Label.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="GUI-Framework\GUI\Graphics\Entities\LanguageSelector.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="GUI-Framework\GUI\Graphics\Entities\LoadingBar.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="GUI-Framework\GUI\Graphics\Entities\Radar.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="GUI-Framework\GUI\Graphics\Entities\Tab.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="GUI-Framework\GUI\Graphics\Entities\TabController.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="GUI-Framework\GUI\Graphics\Entities\TabListBox.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="GUI-Framework\GUI\Graphics\Entities\TabListBoxController.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="GUI-Framework\GUI\Graphics\Entities\TextBox.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="GUI-Framework\GUI\Graphics\Entities\Toggle.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="GUI-Framework\GUI\Graphics\Start Up\GUI.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="GUI-Framework\GUI\Graphics\Start Up\Init.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="GUI-Framework\GUI\Graphics\Utility\Animation.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="GUI-Framework\GUI\Graphics\Utility\AssetManager.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="GUI-Framework\GUI\Graphics\Utility\Colour.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="GUI-Framework\GUI\Graphics\Utility\Font.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="GUI-Framework\GUI\Graphics\Utility\Localisation.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Memory\InputManager.cpp" />
     <ClCompile Include="Memory\Memory.cpp" />
-    <ClCompile Include="Misc\CheatFunction.cpp" />
-    <ClCompile Include="Misc\Input.cpp" />
-    <ClCompile Include="Misc\Pch\Pch.cpp" />
-    <ClCompile Include="Misc\Vector.cpp" />
-    <ClCompile Include="SDK\BaseMovement.cpp" />
-    <ClCompile Include="SDK\BaseNetworkable.cpp" />
-    <ClCompile Include="SDK\BasePlayer.cpp" />
-    <ClCompile Include="SDK\BaseProjectile.cpp" />
-    <ClCompile Include="SDK\ConsoleSystem.cpp" />
-    <ClCompile Include="SDK\ConvarAdmin.cpp" />
-    <ClCompile Include="SDK\ConvarGraphics.cpp" />
-    <ClCompile Include="SDK\Item.cpp" />
-    <ClCompile Include="SDK\LocalPlayer.cpp" />
-    <ClCompile Include="SDK\MainCamera.cpp" />
-    <ClCompile Include="SDK\OcclusionCulling.cpp" />
-    <ClCompile Include="SDK\TODSky.cpp" />
+    <ClCompile Include="Memory\Registry.cpp" />
+    <ClCompile Include="Memory\Shellcode.cpp" />
+    <ClCompile Include="Misc\CheatFunction.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Misc\Input.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Misc\Pch\Pch.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Misc\Vector.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="SDK\BaseMovement.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="SDK\BaseNetworkable.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="SDK\BasePlayer.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="SDK\BaseProjectile.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="SDK\ConsoleSystem.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="SDK\ConvarAdmin.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="SDK\ConvarGraphics.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="SDK\Item.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="SDK\LocalPlayer.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="SDK\MainCamera.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="SDK\OcclusionCulling.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="SDK\TODSky.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Config\ConfigInstance.h" />
@@ -214,35 +346,50 @@
     <ClInclude Include="Config\PlayerEspConfig.h" />
     <ClInclude Include="Esp\PlayerEsp.h" />
     <ClInclude Include="Esp\Visuals.h" />
-    <ClInclude Include="Graphics\Drawing.h" />
-    <ClInclude Include="Graphics\Entities\Button.h" />
-    <ClInclude Include="Graphics\Entities\ColourPicker.h" />
-    <ClInclude Include="Graphics\Entities\ComboBox.h" />
-    <ClInclude Include="Graphics\Entities\DropDown.h" />
-    <ClInclude Include="Graphics\Entities\Entity.h" />
-    <ClInclude Include="Graphics\Entities\Form.h" />
-    <ClInclude Include="Graphics\Entities\KeyBind.h" />
-    <ClInclude Include="Graphics\Entities\Label.h" />
-    <ClInclude Include="Graphics\Entities\Slider.h" />
-    <ClInclude Include="Graphics\Entities\Tab.h" />
-    <ClInclude Include="Graphics\Entities\TabController.h" />
-    <ClInclude Include="Graphics\Entities\TabListBox.h" />
-    <ClInclude Include="Graphics\Entities\TabListBoxController.h" />
-    <ClInclude Include="Graphics\Entities\TextBox.h" />
-    <ClInclude Include="Graphics\Entities\Toggle.h" />
-    <ClInclude Include="Graphics\Graphics.h" />
-    <ClInclude Include="Graphics\Start Up\GUI.h" />
-    <ClInclude Include="Graphics\Start Up\Init.h" />
-    <ClInclude Include="Graphics\Utility\Animation.h" />
-    <ClInclude Include="Graphics\Utility\Colour.h" />
-    <ClInclude Include="Graphics\Utility\Font.h" />
+    <ClInclude Include="GUI-Framework\GUI\Graphics\Drawing.h" />
+    <ClInclude Include="GUI-Framework\GUI\Graphics\Entities\Button.h" />
+    <ClInclude Include="GUI-Framework\GUI\Graphics\Entities\ColourPicker.h" />
+    <ClInclude Include="GUI-Framework\GUI\Graphics\Entities\ComboBox.h" />
+    <ClInclude Include="GUI-Framework\GUI\Graphics\Entities\DropDown.h" />
+    <ClInclude Include="GUI-Framework\GUI\Graphics\Entities\DropDownTextBox.h" />
+    <ClInclude Include="GUI-Framework\GUI\Graphics\Entities\Entity.h" />
+    <ClInclude Include="GUI-Framework\GUI\Graphics\Entities\Form.h" />
+    <ClInclude Include="GUI-Framework\GUI\Graphics\Entities\KeyBind.h" />
+    <ClInclude Include="GUI-Framework\GUI\Graphics\Entities\Label.h" />
+    <ClInclude Include="GUI-Framework\GUI\Graphics\Entities\LanguageSelector.h" />
+    <ClInclude Include="GUI-Framework\GUI\Graphics\Entities\LoadingBar.h" />
+    <ClInclude Include="GUI-Framework\GUI\Graphics\Entities\NumericSlider.h" />
+    <ClInclude Include="GUI-Framework\GUI\Graphics\Entities\Radar.h" />
+    <ClInclude Include="GUI-Framework\GUI\Graphics\Entities\Slider.h" />
+    <ClInclude Include="GUI-Framework\GUI\Graphics\Entities\Tab.h" />
+    <ClInclude Include="GUI-Framework\GUI\Graphics\Entities\TabController.h" />
+    <ClInclude Include="GUI-Framework\GUI\Graphics\Entities\TabListBox.h" />
+    <ClInclude Include="GUI-Framework\GUI\Graphics\Entities\TabListBoxController.h" />
+    <ClInclude Include="GUI-Framework\GUI\Graphics\Entities\TextBox.h" />
+    <ClInclude Include="GUI-Framework\GUI\Graphics\Entities\Toggle.h" />
+    <ClInclude Include="GUI-Framework\GUI\Graphics\Graphics.h" />
+    <ClInclude Include="GUI-Framework\GUI\Graphics\Start Up\GUI.h" />
+    <ClInclude Include="GUI-Framework\GUI\Graphics\Start Up\Init.h" />
+    <ClInclude Include="GUI-Framework\GUI\Graphics\Utility\Animation.h" />
+    <ClInclude Include="GUI-Framework\GUI\Graphics\Utility\AssetManager.h" />
+    <ClInclude Include="GUI-Framework\GUI\Graphics\Utility\Assets\CNFlag.h" />
+    <ClInclude Include="GUI-Framework\GUI\Graphics\Utility\Assets\FormIcon.h" />
+    <ClInclude Include="GUI-Framework\GUI\Graphics\Utility\Assets\Map.h" />
+    <ClInclude Include="GUI-Framework\GUI\Graphics\Utility\Assets\UKFlag.h" />
+    <ClInclude Include="GUI-Framework\GUI\Graphics\Utility\Colour.h" />
+    <ClInclude Include="GUI-Framework\GUI\Graphics\Utility\Font.h" />
+    <ClInclude Include="GUI-Framework\GUI\Graphics\Utility\Localisation.h" />
     <ClInclude Include="Memory\DMAHandler.h" />
+    <ClInclude Include="Memory\InputManager.h" />
     <ClInclude Include="Memory\Memory.h" />
+    <ClInclude Include="Memory\Registry.h" />
+    <ClInclude Include="Memory\Shellcode.h" />
     <ClInclude Include="Misc\CheatFunction.h" />
     <ClInclude Include="Misc\Input.h" />
     <ClInclude Include="Misc\Pch\Pch.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="Misc\Vector.h" />
+    <ClInclude Include="nt\structs.h" />
     <ClInclude Include="SDK\BaseMovement.h" />
     <ClInclude Include="SDK\BaseNetworkable.h" />
     <ClInclude Include="SDK\BasePlayer.h" />

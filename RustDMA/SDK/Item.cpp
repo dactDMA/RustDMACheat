@@ -7,18 +7,18 @@ Item::Item(uint64_t address)
 	
 	Class = address;
 //	printf("[Item] Initialized: 0x%llX\n", Class);
-//	auto handle = TargetProcess.CreateScatterHandle();
-//	TargetProcess.AddScatterReadRequest(handle, Class + Info,reinterpret_cast<void*>(&Info),sizeof(uint64_t));
-//	TargetProcess.AddScatterReadRequest(handle, Class + ItemID, reinterpret_cast<void*>(&ItemID), sizeof(uint32_t));
-//	TargetProcess.AddScatterReadRequest(handle, Class + HeldEntity, reinterpret_cast<void*>(&HeldEntity), sizeof(uint64_t));
-//	TargetProcess.ExecuteScatterRead(handle);
+//	auto handle = mem.CreateScatterHandle();
+//	mem.AddScatterReadRequest(handle, Class + Info,reinterpret_cast<void*>(&Info),sizeof(uint64_t));
+//	mem.AddScatterReadRequest(handle, Class + ItemID, reinterpret_cast<void*>(&ItemID), sizeof(uint32_t));
+//	mem.AddScatterReadRequest(handle, Class + HeldEntity, reinterpret_cast<void*>(&HeldEntity), sizeof(uint64_t));
+//	mem.ExecuteReadScatter(handle);
 // 
-	//TargetProcess.CloseScatterHandle(handle);
+	//mem.CloseScatterHandle(handle);
 	//ItemDefinitionInstance = new ItemDefinition(Info);
 	//printf("[Item] ItemID: 0x%llX\n", ItemID);
 	//printf("[Item] HeldEntity: 0x%llX\n", HeldEntity);
-	ItemID = TargetProcess.Read<uint32_t>(Class + ItemID);
-	HeldEntity = TargetProcess.Read<uint64_t>(Class + HeldEntity);
+	ItemID = mem.Read<uint32_t>(Class + ItemID);
+	HeldEntity = mem.Read<uint64_t>(Class + HeldEntity);
 }
 Item::~Item()
 {

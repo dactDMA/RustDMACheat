@@ -13,13 +13,13 @@ BaseProjectile::BaseProjectile(uint64_t address)
 //	printf("[BaseProjectile] Initialized\n");
 	this->Class = address;
 	//printf("[BaseProjectile] Class: 0x%llX\n", Class);
-	this->RecoilProperties = TargetProcess.Read<uint64_t>(Class + RecoilProperties);
+	this->RecoilProperties = mem.Read<uint64_t>(Class + RecoilProperties);
 	if (RecoilProperties == 0)
 		return;
 	//printf("[BaseProjectile] RecoilProperties: 0x%llX\n", RecoilProperties);
 	if (IsValidWeapon())
 	{
-		uint64_t recoiloverride = TargetProcess.Read<uint64_t>(RecoilProperties + RecoilOverride);
+		uint64_t recoiloverride = mem.Read<uint64_t>(RecoilProperties + RecoilOverride);
 		if (recoiloverride == 0)
 			RecoilOverride = RecoilProperties; // some guns don't have a new recoil pattern and use an old one. which is located at recoilproperties instead of override
 		else
@@ -35,8 +35,8 @@ void BaseProjectile::WriteRecoilYaw(VMMDLL_SCATTER_HANDLE handle, uint32_t itemi
 {
 	if (OriginalRecoilYawMin.find(itemid) == OriginalRecoilYawMin.end() && !RejectedItems.contains(itemid)) // save on reads 
 	{
-		OriginalRecoilYawMin[itemid] = TargetProcess.Read<float>(RecoilOverride + RecoilYawMin);
-		OriginalRecoilYawMax[itemid] = TargetProcess.Read<float>(RecoilOverride + RecoilYawMax);
+		OriginalRecoilYawMin[itemid] = mem.Read<float>(RecoilOverride + RecoilYawMin);
+		OriginalRecoilYawMax[itemid] = mem.Read<float>(RecoilOverride + RecoilYawMax);
 		printf("[BaseProjectile] RecoilYawMin: %f\n", OriginalRecoilYawMin[itemid]);
 		printf("[BaseProjectile] RecoilYawMax: %f\n", OriginalRecoilYawMax[itemid]);
 		if (OriginalRecoilYawMin[itemid] == 0 && OriginalRecoilYawMax[itemid] == 0)
@@ -54,16 +54,16 @@ void BaseProjectile::WriteRecoilYaw(VMMDLL_SCATTER_HANDLE handle, uint32_t itemi
 	float yawmax = OriginalRecoilYawMax[itemid];
 	float yawminpercent = yawmin * (percent / 100.0f);
 	float yawmaxpercent = yawmax * (percent / 100.0f);
-	TargetProcess.AddScatterWriteRequest<float>(handle, RecoilOverride + RecoilYawMin, yawminpercent);
-	TargetProcess.AddScatterWriteRequest<float>(handle,RecoilOverride + RecoilYawMax, yawmaxpercent);
+	mem.AddScatterWriteRequest(handle, RecoilOverride + RecoilYawMin, &yawminpercent);
+	mem.AddScatterWriteRequest(handle,RecoilOverride + RecoilYawMax, &yawmaxpercent);
 }
 
 void BaseProjectile::WriteRecoilPitch(VMMDLL_SCATTER_HANDLE handle, uint32_t itemid, int percent)
 {
 	if (OriginalRecoilPitchMin.find(itemid) == OriginalRecoilPitchMin.end() && !RejectedItems.contains(itemid))
 	{
-		OriginalRecoilPitchMin[itemid] = TargetProcess.Read<float>(RecoilOverride + RecoilPitchMin);
-		OriginalRecoilPitchMax[itemid] = TargetProcess.Read<float>(RecoilOverride + RecoilPitchMax);
+		OriginalRecoilPitchMin[itemid] = mem.Read<float>(RecoilOverride + RecoilPitchMin);
+		OriginalRecoilPitchMax[itemid] = mem.Read<float>(RecoilOverride + RecoilPitchMax);
 		printf("[BaseProjectile] RecoilPitchMin: %f\n", OriginalRecoilPitchMin[itemid]);
 		printf("[BaseProjectile] RecoilPitchMax: %f\n", OriginalRecoilPitchMax[itemid]);
 		if (OriginalRecoilPitchMin[itemid] == 0 && OriginalRecoilPitchMax[itemid] == 0)
@@ -81,6 +81,6 @@ void BaseProjectile::WriteRecoilPitch(VMMDLL_SCATTER_HANDLE handle, uint32_t ite
 	float pitchmax = OriginalRecoilPitchMax[itemid];
 	float pitchminpercent = pitchmin * (percent / 100.0f);
 	float pitchmaxpercent = pitchmax * (percent / 100.0f);		
-	TargetProcess.AddScatterWriteRequest<float>(handle, RecoilOverride + RecoilPitchMin, pitchminpercent);
-	TargetProcess.AddScatterWriteRequest<float>(handle, RecoilOverride + RecoilPitchMax, pitchmaxpercent);
+	mem.AddScatterWriteRequest(handle, RecoilOverride + RecoilPitchMin, &pitchminpercent);
+	mem.AddScatterWriteRequest(handle, RecoilOverride + RecoilPitchMax, &pitchmaxpercent);
 }

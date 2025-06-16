@@ -12,7 +12,7 @@
 #include "TODSky.h"
 #include "BaseProjectile.h"
 #include "CheatFunction.h"
-#include "Init.h"
+#include "init.h"
 #include "GUI.h"
 #include "Configinstance.h"
 #include <dwmapi.h>
@@ -24,15 +24,15 @@ std::shared_ptr<TODSky> Sky = nullptr;
 void PerServerVariables()
 {
 	std::shared_ptr <LocalPlayer> localplayer = std::make_shared <LocalPlayer>();
-	auto handle = TargetProcess.CreateScatterHandle();
+	auto handle = mem.CreateScatterHandle();
 	BaseLocalPlayer = std::make_shared <BasePlayer>(localplayer->GetBasePlayer(),handle);
-	TargetProcess.ExecuteReadScatter(handle);
-	TargetProcess.CloseScatterHandle(handle);
+	mem.ExecuteReadScatter(handle);
+	mem.CloseScatterHandle(handle);
 	BaseLocalPlayer->InitializePlayerList();
-	handle = TargetProcess.CreateScatterHandle();
+	handle = mem.CreateScatterHandle();
 	BaseLocalPlayer->CacheStage1(handle);
-	TargetProcess.ExecuteReadScatter(handle);
-	TargetProcess.CloseScatterHandle(handle);
+	mem.ExecuteReadScatter(handle);
+	mem.CloseScatterHandle(handle);
 	Camera = std::make_shared <MainCamera>();
 	Sky = std::make_shared<TODSky>();
 }
@@ -68,12 +68,12 @@ std::shared_ptr<CheatFunction> CachePlayers = std::make_shared<CheatFunction>(20
 std::shared_ptr<CheatFunction> UpdateMovement = std::make_shared<CheatFunction>(38, []() {
 	if (ConfigInstance.Misc.SpiderMan)
 	{
-		auto handle = TargetProcess.CreateScatterHandle();
+		auto handle = mem.CreateScatterHandle();
 		BaseLocalPlayer->GetBaseMovement()->WriteGroundAngleNew(handle, 0.f);
 		BaseLocalPlayer->GetBaseMovement()->WriteMaxAngleWalking(handle, 100.f);
 		BaseLocalPlayer->GetBaseMovement()->WriteGroundAngle(handle, 0.f);
-		TargetProcess.ExecuteScatterWrite(handle);
-		TargetProcess.CloseScatterHandle(handle);
+		mem.ExecuteWriteScatter(handle);
+		mem.CloseScatterHandle(handle);
 	}
 	});
 std::shared_ptr<CheatFunction> UpdateLocalPlayer = std::make_shared<CheatFunction>(300, []() {
@@ -83,11 +83,11 @@ std::shared_ptr<CheatFunction> UpdateLocalPlayer = std::make_shared<CheatFunctio
 		BaseLocalPlayer->SetupBeltContainerList();
 	}
 
-	auto handle = TargetProcess.CreateScatterHandle();
+	auto handle = mem.CreateScatterHandle();
 	BaseLocalPlayer->UpdateActiveItemID(handle);
 	BaseLocalPlayer->UpdateActiveFlag(handle);
-	TargetProcess.ExecuteReadScatter(handle);
-	TargetProcess.CloseScatterHandle(handle);
+	mem.ExecuteReadScatter(handle);
+	mem.CloseScatterHandle(handle);
 
 	if (ConfigInstance.Misc.NoRecoil)
 	{
@@ -97,11 +97,11 @@ std::shared_ptr<CheatFunction> UpdateLocalPlayer = std::make_shared<CheatFunctio
 			std::shared_ptr <BaseProjectile> weapon = helditem->GetBaseProjectile();
 			if (weapon->IsValidWeapon())
 			{
-				handle = TargetProcess.CreateScatterHandle();
+				handle = mem.CreateScatterHandle();
 				weapon->WriteRecoilPitch(handle,helditem->GetItemID(),ConfigInstance.Misc.RecoilX);
 				weapon->WriteRecoilYaw(handle,helditem->GetItemID(), ConfigInstance.Misc.RecoilY);
-				TargetProcess.ExecuteScatterWrite(handle);
-				TargetProcess.CloseScatterHandle(handle);
+				mem.ExecuteWriteScatter(handle);
+				mem.CloseScatterHandle(handle);
 			}
 
 		}
@@ -122,7 +122,7 @@ std::shared_ptr<CheatFunction> UpdateLocalPlayer = std::make_shared<CheatFunctio
 	}
 	});
 std::shared_ptr<CheatFunction> SkyManager = std::make_shared<CheatFunction>(7, []() {
-	auto handle = TargetProcess.CreateScatterHandle();
+	auto handle = mem.CreateScatterHandle();
 	if (ConfigInstance.Misc.BrightNights)
 	{
 		Sky->WriteNightLightIntensity(handle, 25.0f);
@@ -134,8 +134,8 @@ std::shared_ptr<CheatFunction> SkyManager = std::make_shared<CheatFunction>(7, [
 			Sky->WriteDayAmbientMultiplier(handle, 2.0f);
 
 		}
-		TargetProcess.ExecuteScatterWrite(handle);
-		TargetProcess.CloseScatterHandle(handle);
+		mem.ExecuteWriteScatter(handle);
+		mem.CloseScatterHandle(handle);
 	
 
 	});
@@ -164,13 +164,13 @@ void Intialize()
 }
 void main()
 {
-	if (!TargetProcess.Init("RustClient.exe"))
+	if (!mem.Init("RustClient.exe"))
 	{
 		printf("Failed to initialize process\n");
 		return;
 	}
-	TargetProcess.GetBaseAddress("GameAssembly.dll");
-	TargetProcess.FixCr3();
+	mem.GetBaseDaddy("GameAssembly.dll");
+	mem.FixCr3();
 	Intialize();
 }
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)

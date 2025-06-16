@@ -1,7 +1,7 @@
 #pragma once
 
 extern Vector2 MousePos;
-extern std::map<std::string, HCURSOR> Cursors;
+extern std::unordered_map<std::string, HCURSOR> Cursors;
 extern WPARAM Char;
 LRESULT CALLBACK InputWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
@@ -15,3 +15,6 @@ bool IsMouseInTriangle(Vector2 point1, Vector2 point2, Vector2 point3);
 void SetCurrentCursor(std::string name);
 void CreateCursor(std::string name, HCURSOR cursor);
 HCURSOR GetCurrentCursor();
+
+extern bool HasScrolledUp();
+extern bool HasScrolledDown();

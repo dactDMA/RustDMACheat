@@ -1,5 +1,9 @@
 #pragma once
 #include "pch.h"
+#include "InputManager.h"
+#include "Registry.h"
+#include "Shellcode.h"
+#include "../nt/structs.h"
 
 class Memory
 {
@@ -11,7 +15,7 @@ private:
 		HMODULE LEECHCORE = nullptr;
 	};
 
-	static inline LibModules modules{ };
+	static inline LibModules modules { };
 
 	struct CurrentProcessInformation
 	{
@@ -20,8 +24,8 @@ private:
 		size_t base_size = 0;
 		std::string process_name = "";
 	};
-	std::unordered_map<std::wstring, ULONG64> Modules;
-	static inline CurrentProcessInformation current_process{ };
+
+	static inline CurrentProcessInformation current_process { };
 
 	static inline BOOLEAN DMA_INITIALIZED = FALSE;
 	static inline BOOLEAN PROCESS_INITIALIZED = FALSE;
@@ -41,6 +45,11 @@ private:
 	*/
 	bool SetFPGA();
 
+	//shared pointer
+	std::shared_ptr<c_keys> key;
+	c_registry registry;
+	c_shellcode shellcode;
+
 	/*this->registry_ptr = std::make_shared<c_registry>(*this);
 	this->key_ptr = std::make_shared<c_keys>(*this);*/
 
@@ -51,6 +60,24 @@ public:
 	 */
 	Memory();
 	~Memory();
+
+	/**
+	* @brief Gets the registry object
+	* @return registry class
+	*/
+	c_registry GetRegistry() { return registry; }
+
+	/**
+	* @brief Gets the key object
+	* @return key class
+	*/
+	c_keys* GetKeyboard() { return key.get(); }
+
+	/**
+	* @brief Gets the shellcode object
+	* @return shellcode class
+	*/
+	c_shellcode GetShellcode() { return shellcode; }
 
 	/**
 	* brief Initializes the DMA
@@ -79,8 +106,8 @@ public:
 
 	/**
 	* \brief Gets the module list of the process
-	* \param process_name the name of the process
-	* \return all the module names of the process
+	* \param process_name the name of the process 
+	* \return all the module names of the process 
 	*/
 	std::vector<std::string> GetModuleList(std::string process_name);
 
@@ -90,13 +117,18 @@ public:
 	*/
 	VMMDLL_PROCESS_INFORMATION GetProcessInformation();
 
+	/**
+	* \brief Gets the process peb
+	* \return the process peb 
+	*/
+	PEB GetProcessPeb();
 
 	/**
 	* brief Gets the base address of the process
 	* @param module_name the name of the module
 	* @return the base address of the process
 	*/
-	size_t GetBaseAddress(std::string module_name);
+	size_t GetBaseDaddy(std::string module_name);
 
 	/**
 	* brief Gets the base size of the process
@@ -144,7 +176,7 @@ public:
 	/**
 	 * \brief Scans the process for the signature.
 	 * \param signature the signature example "48 ? ? ?"
-	 * \param range_start Region to start scan from
+	 * \param range_start Region to start scan from 
 	 * \param range_end Region up to where it should scan
 	 * \param PID (OPTIONAL) where to read to?
 	 * \return address of signature
@@ -152,11 +184,11 @@ public:
 	uint64_t FindSignature(const char* signature, uint64_t range_start, uint64_t range_end, int PID = 0);
 
 	/**
-	 * \brief Writes memory to the process
+	 * \brief Writes memory to the process 
 	 * \param address The address to write to
-	 * \param buffer The buffer to writeze of the buffer
-	 * \return
-	 * \param size The si
+	 * \param buffer The buffer to write
+	 * \param size The size of the buffer
+	 * \return 
 	 */
 	bool Write(uintptr_t address, void* buffer, size_t size) const;
 	bool Write(uintptr_t address, void* buffer, size_t size, int pid) const;
@@ -196,7 +228,7 @@ public:
 	template <typename T>
 	T Read(void* address)
 	{
-		T buffer{ };
+		T buffer { };
 		memset(&buffer, 0, sizeof(T));
 		Read(reinterpret_cast<uint64_t>(address), reinterpret_cast<void*>(&buffer), sizeof(T));
 
@@ -218,7 +250,7 @@ public:
 	template <typename T>
 	T Read(void* address, int pid)
 	{
-		T buffer{ };
+		T buffer { };
 		memset(&buffer, 0, sizeof(T));
 		Read(reinterpret_cast<uint64_t>(address), reinterpret_cast<void*>(&buffer), sizeof(T), pid);
 
@@ -232,11 +264,32 @@ public:
 	}
 
 	/**
+	* brief Reads a chain of offsets from the address
+	* @param address The address to read from
+	* @param a vector of offset values to read through
+	* @return the value read from the chain
+	*/
+	uint64_t ReadChain(uint64_t base, const std::vector<uint64_t>& offsets)
+	{
+		uint64_t result = Read<uint64_t>(base + offsets.at(0));
+		for (int i = 1; i < offsets.size(); i++) result = Read<uint64_t>(result + offsets.at(i));
+		return result;
+	}
+
+	template <typename T>
+	T ReadChain(uint64_t base, const std::vector<uint64_t>& offsets)
+	{
+		T result = Read<T>(base + offsets.at(0));
+		for (int i = 1; i < offsets.size(); i++) result = Read<T>(result + offsets.at(i));
+		return result;
+	}
+
+	/**
 	 * \brief Create a scatter handle, this is used for scatter read/write requests
 	 * \return Scatter handle
 	 */
-	VMMDLL_SCATTER_HANDLE CreateScatterHandle();
-	VMMDLL_SCATTER_HANDLE CreateScatterHandle(int pid);
+	VMMDLL_SCATTER_HANDLE CreateScatterHandle() const;
+	VMMDLL_SCATTER_HANDLE CreateScatterHandle(int pid) const;
 
 	/**
 	 * \brief Closes the scatter handle
@@ -247,36 +300,37 @@ public:
 	/**
 	 * \brief Adds a scatter read/write request to the handle
 	 * \param handle the handle
-	 * \param address the address to read/write to
+	 * \param address the address to read/write to 
 	 * \param buffer the buffer to read/write to
 	 * \param size the size of buffer
 	 */
-	void AddScatterReadRequest(VMMDLL_SCATTER_HANDLE handle, uint64_t address, void* buffer, size_t size);
-	void AddScatterWriteRequest(VMMDLL_SCATTER_HANDLE handle, uint64_t address, void* buffer, size_t size);
+	bool AddScatterReadRequest(VMMDLL_SCATTER_HANDLE handle, uint64_t address, void* buffer, size_t size);
+
 	template <typename T>
-	bool AddScatterWriteRequest(VMMDLL_SCATTER_HANDLE handle, uint64_t addr, T value) const
+	bool AddScatterReadRequest(VMMDLL_SCATTER_HANDLE handle, uint64_t address, T* buffer)
 	{
-		bool ret = !VMMDLL_Scatter_PrepareWrite(handle, addr, reinterpret_cast<PBYTE>(&value), sizeof(value));
-		if (!ret)
-		{
-		//	LOG("failed to prepare scatter write at 0x%p\n", addr);
-		}
-		return ret;
+		return AddScatterReadRequest(handle, address, reinterpret_cast<void*>(buffer), sizeof(T));
+	}
+		
+	bool AddScatterWriteRequest(VMMDLL_SCATTER_HANDLE handle, uint64_t address, void* buffer, size_t size);
+
+	template <typename T>
+	bool AddScatterWriteRequest(VMMDLL_SCATTER_HANDLE handle, uint64_t address, T* buffer)
+	{
+		return AddScatterWriteRequest(handle, address, reinterpret_cast<void*>(buffer), sizeof(T));
 	}
 
 	/**
 	 * \brief Executes all prepared scatter requests, note if you created a scatter handle with a pid
 	 * you'll need to specify the pid in the execute function. so we can clear the scatters from the handle.
-	 * \param handle
-	 * \param pid
+	 * \param handle 
+	 * \param pid 
 	 */
 	void ExecuteReadScatter(VMMDLL_SCATTER_HANDLE handle, int pid = 0);
 	void ExecuteWriteScatter(VMMDLL_SCATTER_HANDLE handle, int pid = 0);
-	void ExecuteScatterRead(VMMDLL_SCATTER_HANDLE handle);
-	void ExecuteScatterWrite(VMMDLL_SCATTER_HANDLE handle);
 
 	/*the FPGA handle*/
 	VMM_HANDLE vHandle;
 };
 
-inline Memory TargetProcess;
+inline Memory mem;

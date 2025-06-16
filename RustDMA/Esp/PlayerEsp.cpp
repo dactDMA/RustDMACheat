@@ -2,11 +2,11 @@
 #include "globals.h"
 #include "PlayerEsp.h"
 #include "Visuals.h"
-#include "Drawing.h"
+#include "../../GUI-Framework/GUI/Graphics/Drawing.h"
 #include "ConfigInstance.h"
 
 std::shared_ptr<CheatFunction> UpdatePlayers = std::make_shared<CheatFunction>(20, []() {
-	auto handle = TargetProcess.CreateScatterHandle();
+	auto handle = mem.CreateScatterHandle();
 	BaseLocalPlayer->UpdatePosition(handle);
 	for (std::shared_ptr<BasePlayer> player : BaseLocalPlayer->GetPlayerList())
 	{
@@ -20,8 +20,8 @@ std::shared_ptr<CheatFunction> UpdatePlayers = std::make_shared<CheatFunction>(2
 		player->UpdateDestroyed(handle);
 		player->UpdateActiveFlag(handle);
 	}
-	TargetProcess.ExecuteReadScatter(handle);
-	TargetProcess.CloseScatterHandle(handle);
+	mem.ExecuteReadScatter(handle);
+	mem.CloseScatterHandle(handle);
 	});
 
 void DrawPlayers()

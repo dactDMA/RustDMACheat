@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "Input.h"
-#include "Init.h"
+
 // local scope enum
 enum class KeyState
 {
@@ -10,14 +10,14 @@ enum class KeyState
 };
 
 // could do dictionaries but we only want to handle ascii
-std::map<int, bool> KeyHeld;
-std::map<int, KeyState> KeyStates;
-std::map<int, float> KeyTimes;
+std::unordered_map<int, bool> KeyHeld;
+std::unordered_map<int, KeyState> KeyStates;
+std::unordered_map<int, float> KeyTimes;
 
 Vector2 MousePos;
 WPARAM Char = NULL;
 HCURSOR CurrentCursor;
-std::map<std::string, HCURSOR> Cursors;
+std::unordered_map<std::string, HCURSOR> Cursors;
 
 void CreateCursor(std::string name, HCURSOR cursor)
 {
@@ -51,16 +51,62 @@ void UpdateKeyState(int key, bool down)
 	KeyHeld[key] = down;
 }
 
+bool ScrolledDown = false;
+ULONGLONG ScrollDownTime = 0;
+bool ScrolledUp = false;
+ULONGLONG ScrollUpTime = 0;
+
+bool HasScrolledDown()
+{
+	if (ScrolledDown && ScrollDownTime < GetTickCount64())
+	{
+		ScrolledDown = false;
+		return true;
+	}
+	return false;
+}
+bool HasScrolledUp()
+{
+	if (ScrolledUp && ScrollUpTime < GetTickCount64())
+	{
+		ScrolledUp = false;
+		return true;
+	}
+	return false;
+}
 LRESULT CALLBACK InputWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch (message)
 	{
-	case WM_MOVE:
-		SetWindowPos(hWnd, NULL, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam), GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN), SWP_NOZORDER | SWP_NOACTIVATE);
-		InitD2D(hWnd);
+	case WM_MOUSEWHEEL:
+	{
+
+		int wheelDelta = GET_WHEEL_DELTA_WPARAM(wParam);
+		if (wheelDelta > 0)
+		{
+			ScrolledUp = true;
+			ScrolledDown = false;
+			ScrollUpTime = GetTickCount64() + 10;
+		}
+		else if (wheelDelta < 0)
+		{
+
+			ScrolledDown = true;
+			ScrolledUp = false;
+			ScrollDownTime = GetTickCount64() + 10;
+		}
+
 		break;
+	}
+	ScrolledDown = false;
+	ScrolledUp = false;
 	case WM_CHAR:
 		Char = wParam;
+	case WM_SETCURSOR:
+		SetClassLongPtr(hWnd, // window handle 
+			GCLP_HCURSOR, // change cursor 
+			(LONG_PTR)CurrentCursor); // set cursor
+		break;
 	case WM_KEYUP:
 	case WM_SYSKEYUP:
 	{

@@ -5,19 +5,19 @@
 MainCamera::MainCamera()
 {
 	printf("[MainCamera] Initialized\n");
-	uint64_t maincamera = TargetProcess.Read<uint64_t>(TargetProcess.GetBaseAddress(LIT("GameAssembly.dll")) + Class); // Get Class Start Address
+	uint64_t maincamera = mem.Read<uint64_t>(mem.GetBaseDaddy(LIT("GameAssembly.dll")) + Class); // Get Class Start Address
 	printf("[MainCamera] MainCamera: 0x%llX\n", maincamera);
-	this->StaticField = TargetProcess.Read<uint64_t>(maincamera + StaticField); // Set Static Padding
+	this->StaticField = mem.Read<uint64_t>(maincamera + StaticField); // Set Static Padding
 	printf("[MainCamera] Static Fields: 0x%llX\n", StaticField);
-	this->Camera = TargetProcess.Read<uint64_t>(StaticField + Camera); // Current MainCamera
+	this->Camera = mem.Read<uint64_t>(StaticField + Camera); // Current MainCamera
 	printf("[MainCamera] Camera: 0x%llX\n", Camera);
-	this->CameraGameObject = TargetProcess.Read<uint64_t>(Camera + CameraGameObject); // get the native gameobject
+	this->CameraGameObject = mem.Read<uint64_t>(Camera + CameraGameObject); // get the native gameobject
 	printf("[MainCamera] CameraGameObject: 0x%llX\n", CameraGameObject);
 }
 
 ViewMatrix MainCamera::GetViewMatrix()
 {
 	ViewMatrix viewmatrix;
-	viewmatrix = TargetProcess.Read<ViewMatrix>(CameraGameObject + ViewMatrixOffset);
+	viewmatrix = mem.Read<ViewMatrix>(CameraGameObject + ViewMatrixOffset);
 	return viewmatrix;
 }

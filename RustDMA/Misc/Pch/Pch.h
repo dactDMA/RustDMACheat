@@ -24,6 +24,8 @@
 #include <locale>
 #include <cstdint>
 #include <d2d1_1.h>
+#include <cwctype>
+#include <wincodec.h>
 #include <dwrite.h>
 #include <dwmapi.h>
 #include <ShellScalingApi.h>
@@ -83,3 +85,10 @@ using json = nlohmann::json;
 #include "XorStr.h"
 #include "Memory.h"
 #include "CheatFunction.h"
+//GUI headers
+#include "Colour.h"
+#include "Graphics.h"
+#include "font.h"
+#include "Vector.h"
+#include "Input.h"
+#include "Localisation.h"

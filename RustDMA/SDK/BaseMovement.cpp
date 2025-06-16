@@ -9,71 +9,71 @@ BaseMovement::BaseMovement(uint64_t address)
 
 float BaseMovement::GetGroundAngle()
 {
-	return TargetProcess.Read<float>(Class + GroundAngle);
+	return mem.Read<float>(Class + GroundAngle);
 }
 
 float BaseMovement::GetGroundAngleNew()
 {
-	return TargetProcess.Read<float>(Class + GroundAngleNew);
+	return mem.Read<float>(Class + GroundAngleNew);
 }
 
 float BaseMovement::GetMaxAngleClimbing()
 {
-	return TargetProcess.Read<float>(Class + MaxAngleClimbing);
+	return mem.Read<float>(Class + MaxAngleClimbing);
 }
 
 float BaseMovement::GetMaxAngleWalking()
 {
-	return TargetProcess.Read<float>(Class + MaxAngleWalking);
+	return mem.Read<float>(Class + MaxAngleWalking);
 }
 
 float BaseMovement::GetGroundTime()
 {
-	return TargetProcess.Read<float>(Class + GroundTime);
+	return mem.Read<float>(Class + GroundTime);
 }
 
 float BaseMovement::GetJumpTime()
 {
-	return TargetProcess.Read<float>(Class + JumpTime);
+	return mem.Read<float>(Class + JumpTime);
 }
 
 float BaseMovement::GetLandTime()
 {
-	return TargetProcess.Read<float>(Class + LandTime);
+	return mem.Read<float>(Class + LandTime);
 }
 
 void BaseMovement::WriteGroundAngle(VMMDLL_SCATTER_HANDLE handle, float angle)
 {
-	TargetProcess.AddScatterWriteRequest<float>(handle, Class + GroundAngle, angle);
+	mem.AddScatterWriteRequest(handle, Class + GroundAngle, &angle);
 }
 
 void BaseMovement::WriteGroundAngleNew(VMMDLL_SCATTER_HANDLE handle, float angle)
 {
-	TargetProcess.AddScatterWriteRequest<float>(handle, Class + GroundAngleNew, angle);
+	mem.AddScatterWriteRequest(handle, Class + GroundAngleNew, &angle);
 }
 
 void BaseMovement::WriteMaxAngleClimbing(VMMDLL_SCATTER_HANDLE handle, float angle)
 {
-	TargetProcess.AddScatterWriteRequest<float>(handle, Class + MaxAngleClimbing, angle);
+	mem.AddScatterWriteRequest(handle, Class + MaxAngleClimbing, &angle);
 }
 
 void BaseMovement::WriteMaxAngleWalking(VMMDLL_SCATTER_HANDLE handle, float angle)
 {
-	TargetProcess.AddScatterWriteRequest<float>(handle, Class + MaxAngleWalking, angle);
+	mem.AddScatterWriteRequest(handle, Class + MaxAngleWalking, &angle);
 	
 }
 
 void BaseMovement::WriteGroundTime(VMMDLL_SCATTER_HANDLE handle, float time)
 {
-	TargetProcess.AddScatterWriteRequest<float>(handle, Class + GroundTime, time);
+	mem.AddScatterWriteRequest(handle, Class + GroundTime, &time);
 }
 
 void BaseMovement::WriteJumpTime(VMMDLL_SCATTER_HANDLE handle, float time)
 {
-	TargetProcess.AddScatterWriteRequest<float>(handle, Class + JumpTime, time);
+	mem.AddScatterWriteRequest(handle, Class + JumpTime, &time);
 }
 
 void BaseMovement::WriteLandTime(VMMDLL_SCATTER_HANDLE handle, float time)
 {
-	TargetProcess.AddScatterWriteRequest<float>(handle, Class + LandTime, time);
+	mem.AddScatterWriteRequest(handle, Class + LandTime, &time);
 }
