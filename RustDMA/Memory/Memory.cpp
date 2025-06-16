@@ -33,8 +33,8 @@ Memory::~Memory()
 
 bool Memory::DumpMemoryMap(bool debug)
 {
-	LPSTR args[] = { (LPSTR)"", (LPSTR)"-device", (LPSTR)"fpga://algo=0", (LPSTR)"", (LPSTR)"" };
-	int argc = 3;
+	LPCSTR args[] = { "-device", "fpga", "-waitinitialize", "-norefresh", "", "" };
+	int argc = 4;
 	if (debug)
 	{
 		args[argc++] = (LPSTR)"-v";

@@ -1,0 +1,3 @@
+[submodule "RustDMA/GUI-Framework"]
+	path = RustDMA/GUI-Framework
+	url = https://github.com/IntelSDM/GUI-Framework.git
